@@ -3,7 +3,6 @@ import Navbar from "./Navbar";
 
 const Layout = ({ children, title, description }) => {
   return (
-    // <div className="bg-gray-300">
     <div className="bg-[url('/img/wallpaper.jpg')] ">
       <Head>
         <title>{title}</title>
