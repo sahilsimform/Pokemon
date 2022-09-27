@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <nav className="bg-black border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
-      <div className="container flex flex-wrap justify-between items-center mx-auto">
+    <nav className="rounded border-gray-200 bg-black px-2 py-2.5 sm:px-4 ">
+      <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link href="/">
           <div className="flex items-center">
             <Image
@@ -13,29 +13,29 @@ const Navbar = () => {
               width="60"
               height="60"
             />
-            <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
+            <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
               Pokemon
             </span>
           </div>
         </Link>
         <div className="flex md:order-2 ">
           <div
-            className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
+            className=" flex w-full items-center justify-between  md:order-1 md:flex md:w-auto"
             id="navbar-cta"
           >
-            <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-gray-900">
               <li>
                 <Link
-                  href="/login"
-                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                  href="/signin"
+                  className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
                 >
-                  Log In
+                  Sign In
                 </Link>
               </li>
               <li>
                 <Link
                   href="/signup"
-                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                  className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
                 >
                   Sign Up
                 </Link>
