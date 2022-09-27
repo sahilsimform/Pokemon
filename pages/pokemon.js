@@ -4,8 +4,8 @@ import Layout from "../components/Layout";
 
 export default function pokemon({ pokeman }) {
   return (
-    <Layout title={pokeman.name}>
-      <div className="max-w-sm text-center bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <Layout title={pokeman.name} className="">
+      <div className=" ml-40 max-w-sm  rounded-lg border-2  border-black bg-white text-center shadow-md dark:border-gray-700 dark:bg-gray-800">
         <Link href="#">
           <Image
             className="rounded-t-lg"
@@ -23,14 +23,14 @@ export default function pokemon({ pokeman }) {
           </Link>
           <div className="">
             <p>
-              <span className="font-bold mr-2">Weight: </span>
+              <span className="mr-2 font-bold">Weight: </span>
               {pokeman.weight}
             </p>
             <p>
-              <span className="font-bold mr-2">Height: </span>
+              <span className="mr-2 font-bold">Height: </span>
               {pokeman.height}
             </p>
-            <h2 className="text-2xl mt-6 mb-2">Types</h2>
+            <h2 className="mt-6 mb-2 text-2xl">Types</h2>
             {pokeman.types.map((type, index) => (
               <p key={index}>{type.type.name}</p>
             ))}

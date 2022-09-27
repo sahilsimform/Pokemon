@@ -5,34 +5,34 @@ import Layout from "../components/Layout";
 export default function Home({ pokemon }) {
   return (
     <Layout title="Pokemon Home">
-      <div className="flex ml-36">
+      <div className="flex items-center justify-center">
         <Image
           src="/img/pokeball_close.png"
           alt="Pokeball"
           width="100"
           height="120"
         />
-        <h1 className="text-4xl mt-10  text-center text-red-600 ">
+        <h1 className=" border-2 border-black bg-white text-center text-4xl text-red-600 ">
           Pokemon List
         </h1>
       </div>
       <ul>
         {pokemon.map((pokeman, index) => (
-          <li key={index} className="mt-3 ">
+          <li key={index} className="mt-3  ">
             <Link href={`/pokemon?id=${index + 1}`}>
-              <a className="flex flex-col items-center bg-white rounded-lg border-2 border-black shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <a className="md:max flex flex-col items-center justify-center space-x-40 rounded-lg border-2 border-black bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex-row">
                 <Image
-                  className="object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                  className="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                   src={pokeman.image}
                   alt={pokeman.name}
                   width={150}
                   height={150}
                 />
-                <div className="flex flex-col justify-between p-4 leading-normal  ">
-                  <h5 className="mb-2 ml-32 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <div className="flex flex-col items-center justify-between p-4 leading-normal  ">
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {index + 1}
                   </h5>
-                  <p className="mb-3 ml-24 text-2xl font-normal text-gray-700 dark:text-gray-400">
+                  <p className="mb-3  text-2xl font-normal text-gray-700 dark:text-gray-400">
                     {pokeman.name}
                   </p>
                 </div>
