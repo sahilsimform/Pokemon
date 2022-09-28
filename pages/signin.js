@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import Layout from "../components/Layout";
 import { getSession, signIn } from "next-auth/client";
 import { useRouter } from "next/router";
+import toast from "../components/Toast";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -10,14 +11,21 @@ function SignIn() {
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
 
+  const notify = useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
+
   const loginHandler = async (e) => {
     e.preventDefault();
     const payload = { email, password };
     const result = await signIn("credentials", { ...payload, redirect: false });
     console.log({ result });
     if (!result.error) {
+      notify("success", "Successful Signin");
+
       router.replace("/");
     } else {
+      notify("error", result.error);
       setErrorMessage(result.error);
     }
     const session = await getSession();

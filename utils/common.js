@@ -1,4 +1,7 @@
+import { toast } from "react-toastify";
+
 export const errorHandler = (data, res, code = 400) => {
+  toast.error("Error code", code, "Message", data);
   res.status(code).json({
     hasError: true,
     errorMessage: data,
@@ -6,6 +9,7 @@ export const errorHandler = (data, res, code = 400) => {
 };
 
 export const responseHandler = (data, res, code = 200) => {
+  toast.error("Error code", code, "Message", data);
   res.status(code).json({
     hasError: false,
     body: data,
@@ -34,6 +38,7 @@ export const getValue = (obj, path, defaultValue) => {
       return myValue;
     }
   } catch (error) {
+    toast.error(error);
     console.log({ error });
     return defaultValue;
   }

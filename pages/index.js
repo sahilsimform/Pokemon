@@ -1,8 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback } from "react";
 import Layout from "../components/Layout";
+import toast from "../components/Toast";
 
 export default function Home({ pokemon }) {
+  const notify = useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
   return (
     <Layout title="Pokemon Home">
       <div className="flex items-center justify-center">
@@ -18,7 +23,11 @@ export default function Home({ pokemon }) {
       </div>
       <ul>
         {pokemon.map((pokeman, index) => (
-          <li key={index} className="mt-3  ">
+          <li
+            key={index}
+            className="mt-3 "
+            onClick={() => notify("info", pokeman.name)}
+          >
             <Link href={`/pokemon?id=${index + 1}`}>
               <a className="md:max flex flex-col items-center justify-center space-x-40 rounded-lg border-2 border-black bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex-row">
                 <Image
@@ -64,6 +73,6 @@ export async function getStaticProps(context) {
       props: { pokemon },
     };
   } catch (error) {
-    console.log(error);
+    notify("error", error);
   }
 }

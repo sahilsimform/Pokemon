@@ -31,10 +31,12 @@ export default NextAuth({
 
           const user = await User.findOne({ email }).exec();
           if (!user) {
+            toast.error("Something went wrong !");
             throw new Error("Something went wrong");
           }
           const userDoc = user._doc;
           const isMatched = await bcrypt.compare(password, userDoc.password);
+
           console.log({ isMatched });
 
           if (user && isMatched) {
@@ -46,10 +48,12 @@ export default NextAuth({
             //return null
             // You can also Reject this callback with an Error or with a URL:
             // throw new Error("error message") // Redirect to error page
+            toast.error("Email or Password Incorrect..!");
             throw new Error("Email or Password Incorrect..!");
             // Redirect to a URL
           }
         } catch (error) {
+          toast.error(error);
           throw new Error(error);
         }
       },

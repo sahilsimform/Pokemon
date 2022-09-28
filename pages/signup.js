@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import Layout from "../components/Layout";
 import { signup } from "../client/request";
+import toast from "../components/Toast";
 import { useRouter } from "next/router";
 
 function Signup() {
@@ -11,6 +12,10 @@ function Signup() {
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
 
+  const notify = useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
+
   const signupHandler = async (e) => {
     e.preventDefault();
 
@@ -18,6 +23,7 @@ function Signup() {
     const result = await signup(payload);
 
     if (result.hasError) {
+      notify("error", result.errorMessage);
       setErrorMessage(result.errorMessage);
     } else {
       setErrorMessage(null);
@@ -25,6 +31,7 @@ function Signup() {
       setEmail("");
       setPassword("");
       console.log(result);
+      notify("success", "Successful SignUp");
       router.replace(`/signin`);
     }
   };

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { signOut } from "next-auth/client";
 
 const Navbar = () => {
   return (
@@ -39,6 +40,17 @@ const Navbar = () => {
                 >
                   Sign Up
                 </Link>
+              </li>
+
+              <li>
+                <button onClick={() => signOut()}>
+                  <Link
+                    href="/signin"
+                    className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
+                  >
+                    Log out
+                  </Link>
+                </button>
               </li>
             </ul>
           </div>

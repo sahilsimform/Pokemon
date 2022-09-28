@@ -6,6 +6,9 @@ const nextConfig = {
     domains: ["assets.pokemon.com"],
     formats: ["image/avif", "image/webp"],
   },
+  experimental: {
+    scrollRestoration: true,
+  },
 };
 
 module.exports = nextConfig;

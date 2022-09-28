@@ -10,7 +10,7 @@ const Layout = ({ children, title, description }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="container mx-auto max-w-2xl pt-8 min-h-screen">
+      <main className="container mx-auto min-h-screen max-w-2xl pt-8">
         {children}
       </main>
     </div>

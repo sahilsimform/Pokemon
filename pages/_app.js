@@ -1,5 +1,8 @@
 import NextNProgress from "nextjs-progressbar";
+import { ToastContainer } from "react-toastify";
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -12,6 +15,16 @@ function MyApp({ Component, pageProps }) {
         showOnShallow={true}
       />
       <Component {...pageProps} />
+      <ToastContainer
+        position="top-right"
+        autoClose={8000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        draggable={false}
+        pauseOnVisibilityChange
+        closeOnClick
+        pauseOnHover
+      />
     </>
   );
 }
