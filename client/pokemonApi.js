@@ -11,6 +11,7 @@ const parseErrorCode = (error) => {
       toast.error("Something went wrong !");
     }
   } else {
+    console.log(error.message);
     toast.error(error.message);
   }
 

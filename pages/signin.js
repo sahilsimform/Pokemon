@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import Layout from "../components/Layout";
-import { getSession, signIn } from "next-auth/client";
-import { useRouter } from "next/router";
+// import { getSession, signIn } from "next-auth/client";
 import toast from "../components/Toast";
+import { useRouter } from "next/router";
+import { signIn } from "../client/request";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -18,18 +19,27 @@ function SignIn() {
   const loginHandler = async (e) => {
     e.preventDefault();
     const payload = { email, password };
-    const result = await signIn("credentials", { ...payload, redirect: false });
-    console.log({ result });
-    if (!result.error) {
-      notify("success", "Successful Signin");
+    const result = await signIn(payload);
 
-      router.replace("/");
+    // if (!result.error) {
+    //   notify("success", "Successful Signin");
+    //   router.replace("/");
+    // } else {
+    //   notify("error", result.error);
+    //   setErrorMessage(result.error);
+    // }
+
+    if (result.hasError) {
+      notify("error", result.errorMessage);
+      setErrorMessage(result.errorMessage);
     } else {
-      notify("error", result.error);
-      setErrorMessage(result.error);
+      setErrorMessage(null);
+      setEmail("");
+      setPassword("");
+      // console.log(result);
+      notify("success", "Successful SignIn");
+      router.replace(`/`);
     }
-    const session = await getSession();
-    console.log({ session });
   };
 
   return (

@@ -1,41 +1,49 @@
-import bcrypt from "bcrypt";
-import { dbConnect } from "../../../lib/db-connect";
+import dbConnect from "../../../lib/db-connect";
 import User from "../../../models/user";
-import {
-  errorHandler,
-  responseHandler,
-  validateAllOnce,
-} from "../../../utils/common";
+import bcrypt from "bcrypt";
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    // return error
-    errorHandler("Invalid Request Type", res);
-  } else {
-    try {
-      const { name, email, password } = req.body;
-      validateAllOnce(req.body);
+export default async function handler(req, res, next) {
+  try {
+    await dbConnect();
 
-      //create db connection
-      await dbConnect();
-
-      const hashPassword = await bcrypt.hash(password, 8);
-      const user = new User({
-        ...req.body,
-        password: hashPassword,
-      });
-
-      const saveUser = await user.save();
-      console.log("Save User", saveUser);
-      if (saveUser) {
-        const userDoc = saveUser._doc;
-        delete userDoc.password;
-        responseHandler(userDoc, res, 201);
-      } else {
-        errorHandler("Something went wrong", res);
-      }
-    } catch (error) {
-      errorHandler(error, res);
+    const doesExist = await User.findOne({ email: req.body.email });
+    if (doesExist) {
+      return res.status(401).json({ status: "User already exists" });
     }
+
+    const hashPassword = await bcrypt.hash(req.body.password, 8);
+    const user = new User({
+      ...req.body,
+      password: hashPassword,
+    });
+    const saveUser = await user.save();
+
+    if (saveUser) {
+      const userDoc = saveUser._doc;
+      delete userDoc.password;
+      res.status(201).json({ status: "User Saved to DB" });
+    } else {
+      res.status(401).json({ status: "User Not Saved to DB" });
+    }
+    // jwt token
+    // const token = jwt.sign(
+    //   { user_id: user._id, email },
+    //   process.env.TOKEN_KEY,
+    //   {
+    //     expiresIn: "2h",
+    //   }
+    // );
+    // // save user token
+    // user.token = token;
+
+    if (!user) {
+      return res.json({ status: "User not created" });
+    } else {
+      return res.json({ status: "User created successfully" }, user);
+    }
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ status: "Not able to create a new user.", error });
   }
 }
