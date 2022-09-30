@@ -1,13 +1,23 @@
-import axios from "axios";
-import { getValue } from "../utils/common";
-import { baseUrl } from "./config";
+import pokemonApi from "./pokemonApi";
 
 export const signup = async (payload) => {
   try {
-    const res = await axios.post(baseUrl + `/signup`, payload);
-
+    // const res = await axios.post(baseUrl + `/signup`, payload);
+    const res = await pokemonApi.post(`/signup`, payload);
     return res.data;
   } catch (error) {
-    return getValue(error, ["response", "data"]);
+    console.log("error on Request", error);
+    return;
+  }
+};
+
+export const signIn = async (payload) => {
+  try {
+    // const res = await axios.post(baseUrl + `/signin`, payload);
+    const res = await pokemonApi.post(`/signin`, payload);
+    return res.data;
+  } catch (error) {
+    console.log("error on Request", error);
+    return;
   }
 };

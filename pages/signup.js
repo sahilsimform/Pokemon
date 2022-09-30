@@ -4,6 +4,10 @@ import Layout from "../components/Layout";
 import { signup } from "../client/request";
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
+///////
+// import { Formik, Form, Field } from "formik";
+// import * as Yup from "yup";
+///////
 
 function Signup() {
   const [name, setName] = useState("");
@@ -22,22 +26,54 @@ function Signup() {
     const payload = { name, email, password };
     const result = await signup(payload);
 
-    if (result.hasError) {
-      notify("error", result.errorMessage);
-      setErrorMessage(result.errorMessage);
-    } else {
-      setErrorMessage(null);
-      setName("");
-      setEmail("");
-      setPassword("");
-      console.log(result);
-      notify("success", "Successful SignUp");
-      router.replace(`/signin`);
+    try {
+      if (result.status === "User Created") {
+        notify("success", "Successful Signup");
+        setErrorMessage(null);
+        setName("");
+        setEmail("");
+        setPassword("");
+        router.replace("/signin");
+      } else {
+        notify("error", result.status);
+        setErrorMessage(result.status);
+      }
+    } catch (error) {
+      notify("error", "Something went wrong");
+      setErrorMessage("Something went wrong");
     }
   };
 
+  // const initialValues = {
+  //   name: "",
+  //   email: "",
+  //   password: "",
+  // };
+
+  // const validate = Yup.object().shape({
+  //   name: Yup.string()
+  //     .min(5, "Must be at least 5 characters")
+  //     .max(15, "Must be 15 characters or less")
+  //     .required("Name Required"),
+  //   email: Yup.string()
+  //     .email("Must be a valid email")
+  //     .max(20)
+  //     .required("Email is required"),
+  //   password: Yup.string()
+  //     .matches(
+  //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  //       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+  //     )
+  //     .required("Password is Required!"),
+  // });
+
   return (
     <Layout>
+      {/* <Formik
+        validationSchema={validate}
+        initialValues={initialValues}
+        onSubmit={onSubmitSend}
+      > */}
       <form
         className="flex items-center justify-center "
         onSubmit={signupHandler}
@@ -57,6 +93,7 @@ function Signup() {
               {errorMessage}
             </p>
           )}
+          {/* <ErrorMessages name="name" /> */}
           <label className="text-gray-700">Name</label>
           <input
             className="mb-4 w-full bg-gray-50 py-2 px-1 text-gray-500 outline-none"
@@ -66,6 +103,7 @@ function Signup() {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          {/* <ErrorMessages name="name" /> */}
           <label className="text-gray-700">Email Address</label>
           <input
             className="mb-4 w-full bg-gray-50 py-2 px-1 text-gray-500 outline-none"
@@ -75,6 +113,7 @@ function Signup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {/* <ErrorMessages name="name" /> */}
           <label className="text-gray-700">Password</label>
           <input
             className="mb-4 w-full bg-gray-50 py-2 px-1 text-gray-500 outline-none"
@@ -92,6 +131,7 @@ function Signup() {
           </button>
         </div>
       </form>
+      {/* </Formik> */}
     </Layout>
   );
 }

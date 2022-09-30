@@ -1,7 +1,4 @@
-import { toast } from "react-toastify";
-
 export const errorHandler = (data, res, code = 400) => {
-  toast.error("Error code", code, "Message", data);
   res.status(code).json({
     hasError: true,
     errorMessage: data,
@@ -9,7 +6,6 @@ export const errorHandler = (data, res, code = 400) => {
 };
 
 export const responseHandler = (data, res, code = 200) => {
-  toast.error("Error code", code, "Message", data);
   res.status(code).json({
     hasError: false,
     body: data,
@@ -24,22 +20,22 @@ export const validateAllOnce = (fields) => {
   }
 };
 
-export const getValue = (obj, path, defaultValue) => {
-  try {
-    if (!(obj instanceof Array)) {
-      let myValue = obj;
-      for (let key of path) {
-        if (!(key in myValue)) {
-          return defaultValue;
-        } else {
-          myValue = myValue[key];
-        }
-      }
-      return myValue;
-    }
-  } catch (error) {
-    toast.error(error);
-    console.log({ error });
-    return defaultValue;
-  }
-};
+// export const getValue = (obj, path, defaultValue) => {
+//   try {
+//     if (!(obj instanceof Array)) {
+//       let myValue = obj;
+//       for (let key of path) {
+//         if (!(key in myValue)) {
+//           return defaultValue;
+//         } else {
+//           myValue = myValue[key];
+//         }
+//       }
+//       return myValue;
+//     }
+//   } catch (error) {
+//     toast.error(error);
+//     console.log({ error });
+//     return defaultValue;
+//   }
+// };

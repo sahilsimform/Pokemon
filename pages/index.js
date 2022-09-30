@@ -23,11 +23,7 @@ export default function Home({ pokemon }) {
       </div>
       <ul>
         {pokemon.map((pokeman, index) => (
-          <li
-            key={index}
-            className="mt-3 "
-            onClick={() => notify("info", pokeman.name)}
-          >
+          <li key={index} className="mt-3 ">
             <Link href={`/pokemon?id=${index + 1}`}>
               <a className="md:max flex flex-col items-center justify-center space-x-40 rounded-lg border-2 border-black bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex-row">
                 <Image

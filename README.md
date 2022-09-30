@@ -1,34 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pokemon App using NextJs
 
 ## Getting Started
 
-First, run the development server:
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
+**You need to install [Node.js](https://pt-br.reactjs.org/) and [Yarn](https://yarnpkg.com/) first, then in order to clone the project via HTTPS, run this command:**
+
+```
+  git clone https://github.com/sahilsimform/Pokemon.git
+```
+
+SSH URLs provide access to a Git repository via SSH, a secure protocol. If you have a SSH key registered in your Github account, clone the project using this command:
+
+```
+  git clone git@github.com:sahilsimform/Pokemon.git
+```
+
+**Install dependencies**
+
+```
+  yarn install
+```
+
+# Run code
+
+Run the following command in order to start the application in a development environment:
+
+```
+  yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+# Faq
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+**Question:** What are the tecnologies used in this project?
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**Answer:** The tecnologies used in this project are [NextJS](https://nextjs.org/) + [MangoDB](https://www.mongodb.com) + [React-Toastify](https://fkhadra.github.io/react-toastify/introduction) + [Axios](https://axios-http.com/docs/intro) + [bcryptjs](https://www.npmjs.com/package/bcryptjs) + [JWT](https://jwt.io)
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Check out our [Pokemon App](https://sahil-pokemon.vercel.app/) for more details.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
+
+Released in 2020.
+This project is under the [MIT license](https://github.com/LauraBeatris/pokedex-nextjs/master/LICENSE).
+
+Made with love by [Sahil Singh](https://github.com/sahilsimform) 💜🚀
