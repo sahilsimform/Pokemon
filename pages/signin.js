@@ -28,12 +28,12 @@ function SignIn() {
         setPassword("");
         router.replace("/");
       } else {
-        notify("error", result.status);
+        // notify("error", result.status);
         setErrorMessage(result.status);
       }
     } catch {
-      notify("error", "Something went wrong");
-      setErrorMessage("Something went wrong");
+      // notify("error", "Something went wrong home");
+      setErrorMessage("Wrong ID Or Password");
     }
   };
 

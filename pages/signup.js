@@ -35,12 +35,12 @@ function Signup() {
         setPassword("");
         router.replace("/signin");
       } else {
-        notify("error", result.status);
+        // notify("error", result.status);
         setErrorMessage(result.status);
       }
     } catch (error) {
-      notify("error", "Something went wrong");
-      setErrorMessage("Something went wrong");
+      // notify("error", "Something went wrong");
+      setErrorMessage("Wrong ID Or Password");
     }
   };
 
