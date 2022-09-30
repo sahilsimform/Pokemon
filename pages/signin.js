@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import Layout from "../components/Layout";
-// import { getSession, signIn } from "next-auth/client";
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
 import { signIn } from "../client/request";
@@ -21,24 +20,20 @@ function SignIn() {
     const payload = { email, password };
     const result = await signIn(payload);
 
-    // if (!result.error) {
-    //   notify("success", "Successful Signin");
-    //   router.replace("/");
-    // } else {
-    //   notify("error", result.error);
-    //   setErrorMessage(result.error);
-    // }
-
-    if (result.hasError) {
-      notify("error", result.errorMessage);
-      setErrorMessage(result.errorMessage);
-    } else {
-      setErrorMessage(null);
-      setEmail("");
-      setPassword("");
-      // console.log(result);
-      notify("success", "Successful SignIn");
-      router.replace(`/`);
+    try {
+      if (result.status === "Auth Successful") {
+        notify("success", "Successful Signin");
+        setErrorMessage(null);
+        setEmail("");
+        setPassword("");
+        router.replace("/");
+      } else {
+        notify("error", result.status);
+        setErrorMessage(result.status);
+      }
+    } catch {
+      notify("error", "Something went wrong");
+      setErrorMessage("Something went wrong");
     }
   };
 

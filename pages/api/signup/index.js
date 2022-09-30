@@ -21,9 +21,9 @@ export default async function handler(req, res, next) {
     if (saveUser) {
       const userDoc = saveUser._doc;
       delete userDoc.password;
-      res.status(201).json({ status: "User Saved to DB" });
+      res.status(201).json({ status: "User Created" });
     } else {
-      res.status(401).json({ status: "User Not Saved to DB" });
+      res.status(401).json({ status: "User Not Created" });
     }
     // jwt token
     // const token = jwt.sign(

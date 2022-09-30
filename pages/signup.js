@@ -26,17 +26,21 @@ function Signup() {
     const payload = { name, email, password };
     const result = await signup(payload);
 
-    if (result.hasError) {
-      notify("error", result.errorMessage);
-      setErrorMessage(result.errorMessage);
-    } else {
-      setErrorMessage(null);
-      setName("");
-      setEmail("");
-      setPassword("");
-      // console.log(result);
-      notify("success", "Successful SignUp");
-      router.replace(`/signin`);
+    try {
+      if (result.status === "User Created") {
+        notify("success", "Successful Signup");
+        setErrorMessage(null);
+        setName("");
+        setEmail("");
+        setPassword("");
+        router.replace("/signin");
+      } else {
+        notify("error", result.status);
+        setErrorMessage(result.status);
+      }
+    } catch (error) {
+      notify("error", "Something went wrong");
+      setErrorMessage("Something went wrong");
     }
   };
 

@@ -1,5 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { config } from "./config";
+
+const baseUrl = config.baseUrl;
 
 const parseErrorCode = (error) => {
   if (error.response) {
@@ -23,7 +26,7 @@ const pokemonApi = axios.create();
 // Request parsing interceptor
 pokemonApi.interceptors.request.use(
   async (config) => {
-    config.baseURL = `http://localhost:3000/api`;
+    config.baseURL = baseUrl;
     return config;
   },
   (error) => Promise.reject(error)
