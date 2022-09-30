@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import pokemonApi from "./pokemonApi";
 
 export const signup = async (payload) => {
@@ -6,7 +7,8 @@ export const signup = async (payload) => {
     const res = await pokemonApi.post(`/signup`, payload);
     return res.data;
   } catch (error) {
-    console.log("error on Request", error);
+    toast.error(error.data);
+    // console.log("error on Request", error);
     return;
   }
 };
@@ -17,7 +19,8 @@ export const signIn = async (payload) => {
     const res = await pokemonApi.post(`/signin`, payload);
     return res.data;
   } catch (error) {
-    console.log("error on Request", error);
+    toast.error(error.data);
+    // console.log("error on Request", error);
     return;
   }
 };

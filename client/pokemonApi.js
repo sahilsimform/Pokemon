@@ -7,14 +7,14 @@ const baseUrl = config.baseUrl;
 const parseErrorCode = (error) => {
   if (error.response) {
     if (error.response.status === 401) {
-      toast.error("Unauthorized!");
+      toast.error("Check ID and password!");
     } else if (error.response.status === 404) {
       toast.error("Page not found 404");
     } else {
-      toast.error("Something went wrong !");
+      toast.error("API Something went wrong !");
     }
   } else {
-    console.log(error.message);
+    console.log("Axois ErrorMessages", error.message);
     toast.error(error.message);
   }
 
