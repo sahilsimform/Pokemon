@@ -36,11 +36,11 @@ export default async function handler(req, res, next) {
     // // save user token
     // user.token = token;
 
-    if (!user) {
-      return res.json({ status: "User not created" });
-    } else {
-      return res.json({ status: "User created successfully" }, user);
-    }
+    // if (!user) {
+    //   return res.json({ status: "User not created" });
+    // } else {
+    //   return res.json({ status: "User created successfully" }, user);
+    // }
   } catch (error) {
     return res
       .status(400)
