@@ -27,8 +27,8 @@ export default async function handler(req, res) {
         const serialized = serialize("PokemonToken", token, {
           httpOnly: true,
           // secure: process.env.NODE_ENV !== "development",
-          secure: false,
-          sameSite: "strict",
+          // secure: true,
+          // sameSite: "strict",
           maxAge: 60 * 60 * 24 * 30,
           path: "/",
         });
