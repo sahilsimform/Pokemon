@@ -1,30 +1,33 @@
 import Link from "next/link";
 import Image from "next/image";
-// import axios from "axios";
 import { useCallback } from "react";
 import toast from "./Toast";
 import { logout } from "../client/request";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
+  const router = useRouter();
   const notify = useCallback((type, message) => {
     toast({ type, message });
   }, []);
-  const handleLogout = async () => {
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
     const result = await logout();
+    // console.log({ result });
 
     try {
-      if (result.message === "Successfuly logged out!") {
+      if (result.message === "Successful logged out!") {
         notify("success", "Successful Logout");
         router.replace("/");
       } else {
-        console.log("asfdasfd");
-        notify("error", result.message);
+        notify("error in try in nav bar", result.message);
         // setErrorMessage(result.status);
       }
     } catch {
-      notify("error", "Something went wrong home");
+      // notify("error", "Something went wrong home");
       // setErrorMessage("Something went wrong home");
-      console.log("Something went wrong here");
+      console.log("Something went wrong here in nav bar");
     }
   };
   return (
@@ -67,7 +70,7 @@ const Navbar = () => {
               </li>
 
               <li>
-                <button onClick={() => handleLogout()}>
+                <button onClick={handleLogout}>
                   <Link
                     href="/signin"
                     className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
