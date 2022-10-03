@@ -11,7 +11,7 @@ export default async function (req, res) {
   } else {
     const serialised = serialize("PokemonToken", null, {
       httpOnly: true,
-      //   secure: process.env.NODE_ENV !== "development",
+      secure: process.env.NODE_ENV !== "development",
       sameSite: "strict",
       maxAge: -1,
       path: "/",
