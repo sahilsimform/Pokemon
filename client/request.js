@@ -24,3 +24,15 @@ export const signIn = async (payload) => {
     return;
   }
 };
+
+export const logout = async () => {
+  try {
+    // const res = await axios.post(baseUrl + `/signin`, payload);
+    const res = await pokemonApi.post(`/logout`);
+    return res.data;
+  } catch (error) {
+    toast.error(error.data);
+    // console.log("error on Request", error);
+    return;
+  }
+};
