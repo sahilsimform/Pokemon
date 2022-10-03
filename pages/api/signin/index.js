@@ -1,8 +1,12 @@
 import dbConnect from "../../../lib/db-connect";
 import User from "../../../models/user";
 import bcrypt from "bcrypt";
+import { sign } from "jsonwebtoken";
+import { serialize } from "cookie";
 
-export default async function handler(req, res, next) {
+const secret = process.env.JWT_SECRET;
+
+export default async function handler(req, res) {
   try {
     await dbConnect();
 
@@ -12,6 +16,22 @@ export default async function handler(req, res, next) {
       const cmp = await bcrypt.compare(req.body.password, user.password);
       if (cmp) {
         //   jwt or sessions
+        const token = sign(
+          {
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+            email: req.body.email,
+          },
+          secret
+        );
+
+        const serialized = serialize("PokemonToken", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== "development",
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 30,
+          path: "/",
+        });
+        res.setHeader("Set-Cookie", serialized);
 
         return res.status(201).json({ status: "Auth Successful" });
         // res.send("Auth Successful");
