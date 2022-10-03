@@ -10,7 +10,6 @@ const Navbar = () => {
     toast({ type, message });
   }, []);
   const handleLogout = async () => {
-    // const user = await axios.post("/api/logout");
     const result = await logout();
 
     try {
@@ -23,7 +22,7 @@ const Navbar = () => {
         // setErrorMessage(result.status);
       }
     } catch {
-      // notify("error", "Something went wrong home");
+      notify("error", "Something went wrong home");
       // setErrorMessage("Something went wrong home");
       console.log("Something went wrong here");
     }
