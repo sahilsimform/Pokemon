@@ -19,7 +19,7 @@ const Navbar = () => {
     try {
       if (result.message === "Successful logged out!") {
         notify("success", "Successful Logout");
-        router.replace("/");
+        router.replace("/signin");
       } else {
         notify("error in try in nav bar", result.message);
         // setErrorMessage(result.status);
@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <nav className="rounded border-gray-200 bg-black px-2 py-2.5 sm:px-4 ">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
-        <Link href="/">
+        <Link href="/dashboard/pokemonList">
           <div className="flex items-center">
             <Image
               src="/img/pokeball_open.png"
