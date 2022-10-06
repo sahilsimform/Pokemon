@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback } from "react";
-import Layout from "../components/Layout";
-import toast from "../components/Toast";
+import { toast } from "react-toastify";
+import Layout from "../../components/Layout";
 
 export default function Pokemon({ pokeman }) {
   const notify = useCallback((type, message) => {

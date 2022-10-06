@@ -25,22 +25,6 @@ export default async function handler(req, res, next) {
     } else {
       return res.status(401).json({ status: "User Not Created" });
     }
-    // jwt token
-    // const token = jwt.sign(
-    //   { user_id: user._id, email },
-    //   process.env.TOKEN_KEY,
-    //   {
-    //     expiresIn: "2h",
-    //   }
-    // );
-    // // save user token
-    // user.token = token;
-
-    // if (!user) {
-    //   return res.json({ status: "User not created" });
-    // } else {
-    //   return res.json({ status: "User created successfully" }, user);
-    // }
   } catch (error) {
     return res
       .status(400)
