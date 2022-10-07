@@ -1,13 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-// import { useCallback } from "react";
-// import { toast } from "react-toastify";
 import Layout from "../../components/Layout";
+import axios from "axios";
 
 export default function PokemonList({ pokemon }) {
-  // const notify = useCallback((type, message) => {
-  //   toast({ type, message });
-  // }, []);
   return (
     <Layout title="Pokemon Home">
       <div className="flex items-center justify-center">
@@ -53,14 +49,14 @@ export default function PokemonList({ pokemon }) {
 }
 
 export async function getServerSideProps(context) {
-  try {
-    const userIsValid = context.req.cookies.PokemonToken;
-    if (userIsValid) {
-      const response = await fetch(
+  const userIsValid = context.req.cookies.PokemonToken;
+  if (!userIsValid) return { redirect: { destination: "/" } };
+  else {
+    try {
+      const result = await axios.get(
         "https://pokeapi.co/api/v2/pokemon?limit=30"
       );
-      const { results } = await response.json();
-
+      const { results } = result.data;
       const pokemon = results.map((result, index) => {
         const paddedIndex = ("00" + (index + 1)).slice(-3);
         const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
@@ -72,15 +68,8 @@ export async function getServerSideProps(context) {
       return {
         props: { pokemon },
       };
-    } else {
-      return {
-        redirect: {
-          destination: "/signin",
-          permanent: false,
-        },
-      };
+    } catch (error) {
+      return { redirect: { destination: "/" } };
     }
-  } catch (error) {
-    console.log(error);
   }
 }
