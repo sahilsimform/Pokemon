@@ -19,15 +19,15 @@ export default async function handler(req, res) {
         const token = sign(
           {
             exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
-            email: req.body.email,
+            userId: user._id,
           },
           secret
         );
 
         const serialized = serialize("PokemonToken", token, {
           httpOnly: true,
-          maxAge: 20, // Expires after 20sec
-          // maxAge: 3600, // Expires after 1hr
+          // maxAge: 20, // Expires after 20sec
+          maxAge: 3600, // Expires after 1hr
           path: "/",
         });
         res.setHeader("Set-Cookie", serialized);

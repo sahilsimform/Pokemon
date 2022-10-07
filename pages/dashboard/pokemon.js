@@ -52,14 +52,24 @@ export default function Pokemon({ pokeman }) {
 export async function getServerSideProps(context) {
   const id = context.query.id;
   try {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    const pokeman = await response.json();
-    const paddedIndex = ("00" + id).slice(-3);
-    const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
-    pokeman.image = image;
-    return {
-      props: { pokeman },
-    };
+    const userIsValid = context.req.cookies.PokemonToken;
+    if (userIsValid) {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+      const pokeman = await response.json();
+      const paddedIndex = ("00" + id).slice(-3);
+      const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
+      pokeman.image = image;
+      return {
+        props: { pokeman },
+      };
+    } else {
+      return {
+        redirect: {
+          destination: "/signin",
+          permanent: false,
+        },
+      };
+    }
   } catch (error) {
     notify("error", error);
     console.log(error);
