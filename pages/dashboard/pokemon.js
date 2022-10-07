@@ -1,14 +1,9 @@
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback } from "react";
-import { toast } from "react-toastify";
 import Layout from "../../components/Layout";
 
 export default function Pokemon({ pokeman }) {
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
-
   return (
     <Layout title={pokeman.name}>
       <Link href="/">
@@ -52,26 +47,15 @@ export default function Pokemon({ pokeman }) {
 export async function getServerSideProps(context) {
   const id = context.query.id;
   try {
-    const userIsValid = context.req.cookies.PokemonToken;
-    if (userIsValid) {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-      const pokeman = await response.json();
-      const paddedIndex = ("00" + id).slice(-3);
-      const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
-      pokeman.image = image;
-      return {
-        props: { pokeman },
-      };
-    } else {
-      return {
-        redirect: {
-          destination: "/signin",
-          permanent: false,
-        },
-      };
-    }
+    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    const pokeman = response.data;
+    const paddedIndex = ("00" + id).slice(-3);
+    const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
+    pokeman.image = image;
+    return {
+      props: { pokeman },
+    };
   } catch (error) {
-    notify("error", error);
     console.log(error);
   }
 }
