@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback } from "react";
-import { toast } from "react-toastify";
+// import { useCallback } from "react";
+// import { toast } from "react-toastify";
 import Layout from "../../components/Layout";
 
 export default function PokemonList({ pokemon }) {
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
+  // const notify = useCallback((type, message) => {
+  //   toast({ type, message });
+  // }, []);
   return (
     <Layout title="Pokemon Home">
       <div className="flex items-center justify-center">
@@ -52,23 +52,35 @@ export default function PokemonList({ pokemon }) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   try {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=30");
-    const { results } = await response.json();
+    const userIsValid = context.req.cookies.PokemonToken;
+    if (userIsValid) {
+      const response = await fetch(
+        "https://pokeapi.co/api/v2/pokemon?limit=30"
+      );
+      const { results } = await response.json();
 
-    const pokemon = results.map((result, index) => {
-      const paddedIndex = ("00" + (index + 1)).slice(-3);
-      const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
+      const pokemon = results.map((result, index) => {
+        const paddedIndex = ("00" + (index + 1)).slice(-3);
+        const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
+        return {
+          ...result,
+          image,
+        };
+      });
       return {
-        ...result,
-        image,
+        props: { pokemon },
       };
-    });
-    return {
-      props: { pokemon },
-    };
+    } else {
+      return {
+        redirect: {
+          destination: "/signin",
+          permanent: false,
+        },
+      };
+    }
   } catch (error) {
-    notify("error", error);
+    console.log(error);
   }
 }
