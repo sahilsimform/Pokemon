@@ -33,3 +33,38 @@ export const logout = async () => {
     return;
   }
 };
+
+export const wishlistAdd = async (payload) => {
+  try {
+    const res = await pokemonApi.post(`/wishlist/wishlistAdd`, payload);
+    return res.data;
+  } catch (error) {
+    // toast.error(error.data);
+    console.log("error on Request", error);
+    return;
+  }
+};
+
+export const wishlistDelete = async (payload) => {
+  try {
+    const res = await pokemonApi.post(`/wishlist/wishlistDelete`, payload);
+
+    return res.data;
+  } catch (error) {
+    // toast.error(error.data);
+    console.log("error on Request", error);
+    return;
+  }
+};
+
+export const wishlistFetch = async (payload) => {
+  try {
+    const res = await pokemonApi.get(`/wishlist/wishlistFetch`, payload);
+
+    return res.data;
+  } catch (error) {
+    // toast.error(error.data);
+    console.log("error on Request", error);
+    return;
+  }
+};

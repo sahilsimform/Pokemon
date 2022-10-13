@@ -8,6 +8,7 @@ import ReactLoading from "react-loading";
 
 function SignIn() {
   const [email, setEmail] = useState("");
+  // const { email } = useSelector((state) => state.email);
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);

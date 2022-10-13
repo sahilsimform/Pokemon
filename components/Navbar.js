@@ -1,20 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useCallback } from "react";
-import toast from "./Toast";
 import { logout } from "../client/request";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
   const router = useRouter();
-  const notify = useCallback((type, message) => {
-    toast({ type, message });
-  }, []);
 
-  const handleLogout = async (e) => {
+  const logoutHandler = async (e) => {
     e.preventDefault();
     const result = await logout();
-    // console.log({ result });
 
     try {
       if (result.message === "Successful logged out!") {
@@ -22,11 +16,8 @@ const Navbar = () => {
         router.replace("/signin");
       } else {
         notify("error in try in nav bar", result.message);
-        // setErrorMessage(result.status);
       }
     } catch {
-      // notify("error", "Something went wrong home");
-      // setErrorMessage("Something went wrong home");
       console.log("Something went wrong here in nav bar");
     }
   };
@@ -54,6 +45,14 @@ const Navbar = () => {
             <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-gray-900">
               <li>
                 <Link
+                  href="/dashboard/pokemonWishlist"
+                  className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
+                >
+                  Wishlist
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/signin"
                   className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
                 >
@@ -68,9 +67,8 @@ const Navbar = () => {
                   Sign Up
                 </Link>
               </li>
-
               <li>
-                <button onClick={handleLogout}>
+                <button onClick={logoutHandler}>
                   <Link
                     href="/signin"
                     className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"

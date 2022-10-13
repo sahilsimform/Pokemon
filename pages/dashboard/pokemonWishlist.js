@@ -2,34 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import axios from "axios";
-import { BsBookmarkHeart } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
-import { wishlistAdd, wishlistDelete } from "../../client/request";
+import { wishlistDelete } from "../../client/request";
 
 export default function PokemonList({ pokemon }) {
-  const bookmarkHendelerAdd = async (id) => {
-    const payload = { id };
-    const result = await wishlistAdd(payload);
-
-    try {
-      if (result.status === "success") {
-        window.location.reload();
-
-        console.log("succes with add wishlist");
-      }
-    } catch (error) {
-      console.log("error on bookmarkHendelerAdd", error);
-    }
-  };
-
   const bookmarkHendelerRemove = async (id) => {
     const payload = { id };
     const result = await wishlistDelete(payload);
-
     try {
       if (result.status === "success") {
         window.location.reload();
-
         console.log("succes with remove wishlist");
       }
     } catch (error) {
@@ -47,7 +29,7 @@ export default function PokemonList({ pokemon }) {
           height="120"
         />
         <h1 className=" border-2 border-black bg-white text-center text-4xl text-red-600 ">
-          Pokemon List
+          Pokemon Wishlist
         </h1>
       </div>
       <ul>
@@ -55,17 +37,9 @@ export default function PokemonList({ pokemon }) {
           <li key={index} className="mt-3 ">
             <div className="flex">
               <div className="rounded border-2 border-r-0 border-black bg-white">
-                {pokeman.inWishList ? (
-                  <AiFillDelete
-                    className="mt-12 cursor-pointer  text-3xl text-red-600"
-                    onClick={() => bookmarkHendelerRemove(index + 1)}
-                  />
-                ) : (
-                  <BsBookmarkHeart
-                    className="mt-12 cursor-pointer  text-3xl text-red-600"
-                    onClick={() => bookmarkHendelerAdd(index + 1)}
-                  />
-                )}
+                <button onClick={() => bookmarkHendelerRemove(pokeman.id + 1)}>
+                  <AiFillDelete className="mt-12 cursor-pointer  text-3xl text-red-600" />
+                </button>
               </div>
               <div className="w-full">
                 <Link href={`/dashboard/pokemon?id=${index + 1}`}>
@@ -109,41 +83,29 @@ export async function getServerSideProps(context) {
           Authorization: token,
         },
       });
-      const myWishlistData = data.data;
+
       const result = await axios.get(
         "https://pokeapi.co/api/v2/pokemon?limit=30"
       );
       const { results } = result.data;
-      let tempData = [];
 
-      if (myWishlistData.length === 0) {
-        tempData = results;
-      } else {
-        results.map((result, index) => {
-          if (myWishlistData.includes(index + 1)) {
-            tempData.push({
-              ...result,
-              inWishList: true,
-              id: index + 1,
-            });
-          } else {
-            tempData.push({
-              ...result,
-              inWishList: false,
-              id: index + 1,
-            });
-          }
+      const tempData = [];
+      data.data.map((item) => {
+        tempData.push({
+          ...results[item - 1],
+          id: item - 1,
         });
-      }
+      });
 
-      const pokemon = tempData.map((result, index) => {
-        const paddedIndex = ("00" + (index + 1)).slice(-3);
+      const pokemon = tempData.map((result) => {
+        const paddedIndex = ("00" + (result.id + 1)).slice(-3);
         const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
         return {
           ...result,
           image,
         };
       });
+
       return {
         props: { pokemon },
       };
