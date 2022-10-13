@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         });
         res.setHeader("Set-Cookie", serialized);
 
-        return res.status(201).json({ status: "Auth Successful" });
+        return res.status(201).json({ status: "Auth Successful", data: user });
         // res.send("Auth Successful");
       } else {
         return res.status(401).json({ status: "Wrong email or password." });

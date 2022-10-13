@@ -2,7 +2,7 @@ import dbConnect from "../../../lib/db-connect";
 import User from "../../../models/user";
 import bcrypt from "bcrypt";
 
-export default async function handler(req, res, next) {
+export default async function handler(req, res) {
   try {
     await dbConnect();
 
@@ -12,6 +12,7 @@ export default async function handler(req, res, next) {
     }
 
     const hashPassword = await bcrypt.hash(req.body.password, 8);
+
     const user = new User({
       ...req.body,
       password: hashPassword,

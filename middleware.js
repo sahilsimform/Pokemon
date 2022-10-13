@@ -46,13 +46,11 @@ export default function middleware(req) {
         url.pathname = "/signin";
 
         const response = NextResponse.redirect(url);
-        // response.setHeader("Set-Cookie", "PokemonToken=; Max-Age=0; ");
 
         response.cookies.set("PokemonToken", "", {
           maxAge: 0,
         });
 
-        // response.
         return response;
       }
     } else {

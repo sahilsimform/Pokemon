@@ -18,6 +18,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    wishlist: [],
   },
   {
     timestamps: true,
