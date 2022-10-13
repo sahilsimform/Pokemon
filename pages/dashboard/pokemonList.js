@@ -100,15 +100,18 @@ export default function PokemonList({ pokemon }) {
 
 export async function getServerSideProps(context) {
   const token = context.req.cookies.PokemonToken;
-  baseURL =
+  const hostname = window.location.hostname;
+  config.baseURL =
     hostname === "localhost"
-      ? `${window.location.origin}/`
-      : `https://sahil-pokemon.vercel.app/`;
+      ? `${window.location.origin}/api`
+      : `https://sahil-pokemon.vercel.app/api`;
+
   if (!token) return { redirect: { destination: "/" } };
   else {
     try {
       const { data } = await axios.get("/api/wishlist/wishlistFetch", {
-        baseURL: baseURL,
+        // baseURL: "http://localhost:3000",
+        baseURL: hostname,
         headers: {
           Authorization: token,
         },
