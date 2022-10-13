@@ -78,7 +78,7 @@ export async function getServerSideProps(context) {
   else {
     try {
       const { data } = await axios.get("/api/wishlist/wishlistFetch", {
-        baseURL: "http://localhost:3000",
+        baseURL: "https://sahil-pokemon.vercel.app",
         headers: {
           Authorization: token,
         },
