@@ -102,8 +102,8 @@ export async function getServerSideProps(context) {
   const token = context.req.cookies.PokemonToken;
   baseURL =
     hostname === "localhost"
-      ? `${window.location.origin}/api`
-      : `https://sahil-pokemon.vercel.app/api`;
+      ? `${window.location.origin}/`
+      : `https://sahil-pokemon.vercel.app/`;
   if (!token) return { redirect: { destination: "/" } };
   else {
     try {
