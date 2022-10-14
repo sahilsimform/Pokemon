@@ -5,16 +5,63 @@ import axios from "axios";
 import { BsBookmarkHeart } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import { wishlistAdd, wishlistDelete } from "../../client/request";
+import { config } from "../../client/config";
+import { useState } from "react";
 
-export default function PokemonList({ pokemon }) {
+export default function PokemonList({ pokemon, myWishlistData, token }) {
+  const [pokemonIds, setPokemonIds] = useState(myWishlistData);
+  const [pokemonData, setPokemonData] = useState(pokemon);
+
+  const makeListData = async () => {
+    const {
+      data: { data: fav = [] },
+    } = await axios.get("/api/wishlist/wishlistFetch", {
+      baseURL: config.baseUrl,
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    const result = await axios.get(
+      "https://pokeapi.co/api/v2/pokemon?limit=30"
+    );
+    const { results } = result.data;
+
+    let tempData = [];
+    results.map((result, index) => {
+      if (fav.includes(index + 1)) {
+        tempData.push({
+          ...result,
+          inWishList: true,
+          id: index + 1,
+        });
+      } else {
+        tempData.push({
+          ...result,
+          inWishList: false,
+          id: index + 1,
+        });
+      }
+    });
+
+    const pokemon = tempData.map((result, index) => {
+      const paddedIndex = ("00" + (index + 1)).slice(-3);
+      const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedIndex}.png`;
+      return {
+        ...result,
+        image,
+      };
+    });
+    setPokemonIds(fav);
+    setPokemonData(pokemon);
+  };
+
   const bookmarkHendelerAdd = async (id) => {
-    const payload = { id };
-    const result = await wishlistAdd(payload);
-
     try {
+      const payload = { id };
+      const result = await wishlistAdd(payload);
       if (result.status === "success") {
-        window.location.reload();
-
+        await makeListData();
         console.log("succes with add wishlist");
       }
     } catch (error) {
@@ -23,13 +70,12 @@ export default function PokemonList({ pokemon }) {
   };
 
   const bookmarkHendelerRemove = async (id) => {
-    const payload = { id };
-    const result = await wishlistDelete(payload);
-
     try {
-      if (result.status === "success") {
-        window.location.reload();
+      const payload = { id };
+      const result = await wishlistDelete(payload);
 
+      if (result.status === "success") {
+        await makeListData();
         console.log("succes with remove wishlist");
       }
     } catch (error) {
@@ -51,7 +97,7 @@ export default function PokemonList({ pokemon }) {
         </h1>
       </div>
       <ul>
-        {pokemon.map((pokeman, index) => (
+        {pokemonData.map((pokeman, index) => (
           <li key={index} className="mt-3 ">
             <div className="flex">
               <div className="rounded border-2 border-r-0 border-black bg-white">
@@ -100,18 +146,12 @@ export default function PokemonList({ pokemon }) {
 
 export async function getServerSideProps(context) {
   const token = context.req.cookies.PokemonToken;
-  // const hostname = window.location.hostname;
-  // config.baseURL =
-  //   hostname === "localhost"
-  //     ? `${window.location.origin}`
-  //     : `https://sahil-pokemon.vercel.app`;
 
   if (!token) return { redirect: { destination: "/" } };
   else {
     try {
       const { data } = await axios.get("/api/wishlist/wishlistFetch", {
-        // baseURL: "http://localhost:3000",
-        baseURL: "https://sahil-pokemon.vercel.app",
+        baseURL: config.baseUrl,
         headers: {
           Authorization: token,
         },
@@ -152,7 +192,7 @@ export async function getServerSideProps(context) {
         };
       });
       return {
-        props: { pokemon },
+        props: { pokemon, myWishlistData, token },
       };
     } catch (error) {
       console.log(error);
