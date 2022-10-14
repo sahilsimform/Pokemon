@@ -5,6 +5,7 @@ import toast from "../components/Toast";
 import { useRouter } from "next/router";
 import { signIn } from "../client/request";
 import ReactLoading from "react-loading";
+import { setCookie } from "../helper/cookies";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -23,6 +24,7 @@ function SignIn() {
     setLoading(true);
     const payload = { email, password };
     const result = await signIn(payload);
+    setCookie("PokemonTokenClient", payload.email);
 
     try {
       if (result.status === "Auth Successful") {

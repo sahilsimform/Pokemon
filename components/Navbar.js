@@ -2,14 +2,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { logout } from "../client/request";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { getCookie, deleteCookie } from "../helper/cookies";
 
 const Navbar = () => {
   const router = useRouter();
+  const [clientCookie, setClientCookie] = useState();
+
+  useEffect(() => {
+    const getClientCookie = getCookie("PokemonTokenClient");
+    setClientCookie(getClientCookie);
+  }, [clientCookie]);
 
   const logoutHandler = async (e) => {
     e.preventDefault();
     const result = await logout();
-
+    deleteCookie("PokemonTokenClient");
     try {
       if (result.message === "Successful logged out!") {
         notify("success", "Successful Logout");
@@ -43,40 +51,58 @@ const Navbar = () => {
             id="navbar-cta"
           >
             <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-gray-900">
-              <li>
-                <Link
-                  href="/dashboard/pokemonWishlist"
-                  className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
-                >
-                  Wishlist
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/signin"
-                  className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
-                >
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/signup"
-                  className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
-                >
-                  Sign Up
-                </Link>
-              </li>
-              <li>
-                <button onClick={logoutHandler}>
-                  <Link
-                    href="/signin"
-                    className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
-                  >
-                    Log out
-                  </Link>
-                </button>
-              </li>
+              {!clientCookie ? (
+                <>
+                  <li>
+                    <Link
+                      href="/signin"
+                      className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
+                    >
+                      Sign In
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/signup"
+                      className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
+                    >
+                      Sign Up
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  {location.pathname === "/dashboard/pokemonWishlist" ? (
+                    <li>
+                      <Link
+                        href="/dashboard/pokemonList"
+                        className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
+                      >
+                        List
+                      </Link>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link
+                        href="/dashboard/pokemonWishlist"
+                        className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
+                      >
+                        Wishlist
+                      </Link>
+                    </li>
+                  )}
+                  <li>
+                    <button onClick={logoutHandler}>
+                      <Link
+                        href="/signin"
+                        className="block rounded bg-blue-700 py-2 pr-4 pl-3 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
+                      >
+                        Log out
+                      </Link>
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
