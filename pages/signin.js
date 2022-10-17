@@ -9,7 +9,6 @@ import { setCookie } from "../helper/cookies";
 
 function SignIn() {
   const [email, setEmail] = useState("");
-  // const { email } = useSelector((state) => state.email);
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -45,7 +44,7 @@ function SignIn() {
   };
 
   return (
-    <Layout>
+    <Layout title="Signin Page">
       <form
         className="flex items-center justify-center"
         onSubmit={loginHandler}

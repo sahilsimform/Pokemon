@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 
 const Index = () => {
   return (
-    <Layout>
+    <Layout title="Home">
       <div>
         <h1 className="text-red">Welcome To Sahil Pokemon App</h1>
       </div>

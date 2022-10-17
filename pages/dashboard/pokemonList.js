@@ -92,7 +92,7 @@ export default function PokemonList({ pokemon, myWishlistData, token }) {
           width="100"
           height="120"
         />
-        <h1 className=" border-2 border-black bg-white text-center text-4xl text-red-600 ">
+        <h1 className=" border-2 border-black bg-white text-center text-4xl text-red-600 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
           Pokemon List
         </h1>
       </div>
@@ -100,7 +100,7 @@ export default function PokemonList({ pokemon, myWishlistData, token }) {
         {pokemonData.map((pokeman, index) => (
           <li key={index} className="mt-3 ">
             <div className="flex">
-              <div className="rounded border-2 border-r-0 border-black bg-white">
+              <div className="rounded border-2 border-r-0 border-black bg-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                 {pokeman.inWishList ? (
                   <AiFillDelete
                     className="mt-12 cursor-pointer  text-3xl text-red-600"
