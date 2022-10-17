@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import pokemonApi from "./pokemonApi";
 
 export const signup = async (payload) => {
@@ -28,7 +27,6 @@ export const logout = async () => {
     const res = await pokemonApi.post(`/logout`);
     return res.data;
   } catch (error) {
-    // toast.error(error.data);
     console.log("error on Request", error);
     return;
   }
@@ -39,7 +37,6 @@ export const wishlistAdd = async (payload) => {
     const res = await pokemonApi.post(`/wishlist/wishlistAdd`, payload);
     return res.data;
   } catch (error) {
-    // toast.error(error.data);
     console.log("error on Request", error);
     return;
   }
@@ -51,7 +48,6 @@ export const wishlistDelete = async (payload) => {
 
     return res.data;
   } catch (error) {
-    // toast.error(error.data);
     console.log("error on Request", error);
     return;
   }
@@ -63,7 +59,6 @@ export const wishlistFetch = async (payload) => {
 
     return res.data;
   } catch (error) {
-    // toast.error(error.data);
     console.log("error on Request", error);
     return;
   }
